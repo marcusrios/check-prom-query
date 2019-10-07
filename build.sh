@@ -9,8 +9,8 @@ function getCurrentTime() {
 
 for os in ${SYSTEMS[@]}; do
     echo "[$(getCurrentTime)] build $os binary..."
-    GOOS=${os} GOARH=amd64 go build -o check-prom-quey-${os}-${ARCH}
-    tar -czf check-prom-query-${os}-${ARCH}.tar.gz check-prom-quey-${os}-${ARCH} && rm -rf check-prom-quey-${os}-${ARCH}
+    GOOS=${os} GOARH=amd64 go build -o check-prom-query-${os}-${ARCH}
+    tar -czf check-prom-query-${os}-${ARCH}.tar.gz check-prom-query-${os}-${ARCH} && rm -rf check-prom-query-${os}-${ARCH}
 done
 
 echo "[$(getCurrentTime)] Build complete"
