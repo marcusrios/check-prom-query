@@ -50,13 +50,13 @@ func main() {
 
 	resp, err := http.Get(url)
 
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	if resp.StatusCode != 200 {
 		fmt.Printf("Failed to query prometheus. Got %d status code\n", resp.StatusCode)
 		os.Exit(1)
-	}
-
-	if err != nil {
-		log.Fatal(err)
 	}
 
 	bytes, err := ioutil.ReadAll(resp.Body)
