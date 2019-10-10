@@ -20,6 +20,7 @@ var (
 	query    = flag.String("query", "", "Query that be executed in prometheus")
 	critical = flag.Float64("critical", 0.0, "Critical if value is greater than")
 	warning  = flag.Float64("warning", 0.0, "Warning if value is greater than")
+	lessThan = flag.Bool("lt", false, "Change whether value is less than check")
 )
 
 const (
@@ -72,15 +73,29 @@ func main() {
 		log.Fatal(err)
 	}
 
-	switch value, _ := strconv.ParseFloat(response.FilterAPIResponseValue(), 64); {
-	case value >= *critical:
-		fmt.Printf("CRITICAL: critical value is %.4f and got %.4f\n", *critical, value)
-		os.Exit(criticalStatus)
-	case value >= *warning:
-		fmt.Printf("WARNING: warning value is %.4f and got %.4f\n", *warning, value)
-		os.Exit(warningStatus)
-	default:
-		fmt.Printf("OK - %.4f\n", value)
-		os.Exit(okStatus)
+	if *lessThan {
+		switch value, _ := strconv.ParseFloat(response.FilterAPIResponseValue(), 64); {
+		case value < *critical:
+			fmt.Printf("CRITICAL: critical value is %.4f and got %.4f\n", *critical, value)
+			os.Exit(criticalStatus)
+		case value < *warning:
+			fmt.Printf("WARNING: warning value is %.4f and got %.4f\n", *warning, value)
+			os.Exit(warningStatus)
+		default:
+			fmt.Printf("OK - %.4f\n", value)
+			os.Exit(okStatus)
+		}
+	} else {
+		switch value, _ := strconv.ParseFloat(response.FilterAPIResponseValue(), 64); {
+		case value >= *critical:
+			fmt.Printf("CRITICAL: critical value is %.4f and got %.4f\n", *critical, value)
+			os.Exit(criticalStatus)
+		case value >= *warning:
+			fmt.Printf("WARNING: warning value is %.4f and got %.4f\n", *warning, value)
+			os.Exit(warningStatus)
+		default:
+			fmt.Printf("OK - %.4f\n", value)
+			os.Exit(okStatus)
+		}
 	}
 }
