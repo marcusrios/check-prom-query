@@ -49,7 +49,8 @@ func main() {
 	utils.RemoveHTTPPrefix(host)
 	url := "http://" + *host + ":" + *port + "/api/v1/query?query=" + *query
 
-	resp, err := http.Get(url)
+	encodedURL := utils.EncodeURL(url)
+	resp, err := http.Get(encodedURL)
 
 	if err != nil {
 		log.Fatal(err)
