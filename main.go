@@ -75,7 +75,13 @@ func main() {
 	}
 
 	if *lessThan {
-		switch value, _ := strconv.ParseFloat(response.FilterAPIResponseValue(), 64); {
+		resp, err := response.FilterAPIResponseValue()
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		switch value, _ := strconv.ParseFloat(resp, 64); {
 		case value < *critical:
 			fmt.Printf("CRITICAL: critical value is %.4f and got %.4f\n", *critical, value)
 			os.Exit(criticalStatus)
@@ -87,7 +93,13 @@ func main() {
 			os.Exit(okStatus)
 		}
 	} else {
-		switch value, _ := strconv.ParseFloat(response.FilterAPIResponseValue(), 64); {
+		resp, err := response.FilterAPIResponseValue()
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		switch value, _ := strconv.ParseFloat(resp, 64); {
 		case value >= *critical:
 			fmt.Printf("CRITICAL: critical value is %.4f and got %.4f\n", *critical, value)
 			os.Exit(criticalStatus)
