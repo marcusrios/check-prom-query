@@ -15,6 +15,7 @@ check-prom-query -host my-prometheus-server.com -port 30900 -critical 0.5 -warni
 | -query  | Pass the query in promQL format | "" |
 | -critical | Pass the critical threshold that will be evaluated | 0.0 |
 | -warning | Pass the warning threshold that will be evaluated | 0.0 |
+| -lt     | Change whether value is less than check | false |
 
 ### Building
 
